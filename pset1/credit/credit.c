@@ -32,7 +32,7 @@ int main(void)
         printf("INVALID\n");
     else if (digit == 15 && head == 3 && (next == 4 || next == 7))
         printf("AMEX\n");
-    else if (digit == 16 && head == 5 && (next == 1 || next == 2 || next == 3 || next == 4 || next == 5))
+    else if (digit == 16 && head == 5 && (next >= 1 && next <= 5))
         printf("MASTERCARD\n");
     else if ((digit == 13 || digit == 16) && head == 4)
         printf("VISA\n");
