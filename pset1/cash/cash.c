@@ -13,8 +13,6 @@ int main(void)
     }
     while (change_dollars < 0);
     change_cent = round(change_dollars * 100);
-    //printf("dollars = %f\n", change_dollars);
-    //printf("cent = %d\n", change_cent);
     coin = 0;
     coin = change_cent / 25;
     change_cent %= 25;
