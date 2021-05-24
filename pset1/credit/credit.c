@@ -8,7 +8,6 @@ int main(void)
     int total = 0;
     int head = 0;
     int next = 0;
-    int tmp = 0;
 
     number = get_long("Number: ");
     for (digit = 0; number != 0; digit++)
@@ -19,12 +18,8 @@ int main(void)
             total += number % 10;
         else
         {
-            tmp = number % 10 * 2;
-            while (tmp)
-            {
+            for (int tmp = number % 10 * 2; tmp != 0; tmp /= 10)
                 total += tmp % 10;
-                tmp /= 10;
-            }
         }
         number /= 10;
     }
