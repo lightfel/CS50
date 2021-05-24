@@ -3,13 +3,12 @@
 
 int main(void)
 {
-    long number;
     int digit;
     int total = 0;
     int head = 0;
     int next = 0;
 
-    number = get_long("Number: ");
+    long number = get_long("Number: ");
     for (digit = 0; number != 0; digit++)
     {
         next = head;
