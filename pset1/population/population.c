@@ -17,10 +17,7 @@ int main(void)
     }
     while (end_size < start_size);
     size = start_size;
-    year = 0;
-    while (size < end_size) {    
+    for (year = 0; size < end_size; year++)
         size += size / 3 - size / 4;
-        year++;
-    }
     printf("Years: %d\n", year);
 }
