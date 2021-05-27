@@ -14,11 +14,10 @@ int main(void)
             head = number % 100;
         if (digit % 2 == 0)
             total += number % 10;
+        else if (number % 10 < 5)
+            total += number % 10 * 2;
         else
-        {
-            for (int tmp = number % 10 * 2; tmp != 0; tmp /= 10)
-                total += tmp % 10;
-        }
+            total += 1 + (number % 10 * 2) % 10;
         number /= 10;
     }
     if (total % 10)
