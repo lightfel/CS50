@@ -6,6 +6,7 @@ int main(void)
     int digit;
     int total = 0;
     int head = 0;
+    char *message = "INVALID";
 
     long number = get_long("Number: ");
     for (digit = 0; number != 0; digit++)
@@ -21,14 +22,13 @@ int main(void)
         number /= 10;
     }
     if (total % 10)
-        printf("INVALID\n");
+        message = "INVALID";
     else if (digit == 15 && (head == 34 || head == 37))
-        printf("AMEX\n");
+        message = "AMEX";
     else if (digit == 16 && (head >= 51 && head <= 55))
-        printf("MASTERCARD\n");
+        message = "MASTERCARD";
     else if ((digit == 13 || digit == 16) && head / 10 == 4)
-        printf("VISA\n");
-    else
-        printf("INVALID\n");
+        message = "VISA";
+    printf ("%s\n", message);
     return (0);
 }
