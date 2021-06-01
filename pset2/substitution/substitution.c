@@ -17,6 +17,11 @@ int main(int argc, char **argv)
     }
     for (num = 0; argv[1][num]; num++)
     {
+        if (!isalpha(argv[1][num]))
+        {
+            printf("Key must only contain alphabetic characters.\n");
+            return (1);
+        }
         argv[1][num] = toupper(argv[1][num]);
         if (flag[argv[1][num] - 'A'])
         {
@@ -24,11 +29,6 @@ int main(int argc, char **argv)
             return (1);
         }
         flag[argv[1][num] - 'A'] = true;
-        if (!isalpha(argv[1][num]))
-        {
-            printf("Key must only contain alphabetic characters.\n");
-            return (1);
-        }
     }
     if (num != 26)
     {
