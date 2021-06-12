@@ -1,5 +1,13 @@
 #include "helpers.h"
 
+typedef enum
+{
+    RED,
+    GREEN,
+    BLUE,
+    RGB
+}   rgb;
+
 // Convert image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
 {
@@ -21,24 +29,24 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
 // Convert image to sepia
 void sepia(int height, int width, RGBTRIPLE image[height][width])
 {
-    int sepiaRed, sepiaGreen, sepiaBlue;
+    int sepia[RGB];
 
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
-            sepiaRed = round(0.393 * image[i][j].rgbtRed + 0.769 * image[i][j].rgbtGreen + 0.189 * image[i][j].rgbtBlue);
-            if (sepiaRed > 255)
-                sepiaRed = 255;
-            sepiaGreen = round(0.349 * image[i][j].rgbtRed + 0.686 * image[i][j].rgbtGreen + 0.168 * image[i][j].rgbtBlue);
-            if (sepiaGreen > 255)
-                sepiaGreen = 255;
-            sepiaBlue = round(0.272 * image[i][j].rgbtRed + 0.534 * image[i][j].rgbtGreen + 0.131 * image[i][j].rgbtBlue);
-            if (sepiaBlue > 255)
-                sepiaBlue = 255;
-            image[i][j].rgbtRed = sepiaRed;
-            image[i][j].rgbtGreen = sepiaGreen;
-            image[i][j].rgbtBlue = sepiaBlue;
+            sepia[RED] = round(0.393 * image[i][j].rgbtRed + 0.769 * image[i][j].rgbtGreen + 0.189 * image[i][j].rgbtBlue);
+            if (sepia[RED] > 255)
+                sepia[RED] = 255;
+            sepia[GREEN] = round(0.349 * image[i][j].rgbtRed + 0.686 * image[i][j].rgbtGreen + 0.168 * image[i][j].rgbtBlue);
+            if (sepia[GREEN] > 255)
+                sepia[GREEN] = 255;
+            sepia[BLUE] = round(0.272 * image[i][j].rgbtRed + 0.534 * image[i][j].rgbtGreen + 0.131 * image[i][j].rgbtBlue);
+            if (sepia[BLUE] > 255)
+                sepia[BLUE] = 255;
+            image[i][j].rgbtRed = sepia[RED];
+            image[i][j].rgbtGreen = sepia[GREEN];
+            image[i][j].rgbtBlue = sepia[BLUE];
         }
     }
     return;
@@ -71,21 +79,21 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0; j < width; j++)
         {
-            int x, y, count = 0, sum[3] = {};
+            int x, y, count = 0, sum[RGB] = {};
             for (int k = 0; k < 9; k++)
             {
                 x = j + dx[k];
                 y = i + dy[k];
                 if (x < 0 || x >= width || y < 0 || y >= height)
                     continue;
-                sum[0] += image[y][x].rgbtRed;
-                sum[1] += image[y][x].rgbtGreen;
-                sum[2] += image[y][x].rgbtBlue;
+                sum[RED] += image[y][x].rgbtRed;
+                sum[GREEN] += image[y][x].rgbtGreen;
+                sum[BLUE] += image[y][x].rgbtBlue;
                 count++;
             }
-            tmp[i * width + j].rgbtRed = round(sum[0] / (float)count);
-            tmp[i * width + j].rgbtGreen = round(sum[1] / (float)count);
-            tmp[i * width + j].rgbtBlue = round(sum[2] / (float)count);
+            tmp[i * width + j].rgbtRed = round(sum[RED] / (float)count);
+            tmp[i * width + j].rgbtGreen = round(sum[GREEN] / (float)count);
+            tmp[i * width + j].rgbtBlue = round(sum[BLUE] / (float)count);
         }
     }
     for (int i = 0; i < height; i++)
