@@ -35,6 +35,14 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 }
 
 // Blur image
+typedef enum
+{
+    RED,
+    GREEN,
+    BLUE,
+    RGB
+}   rgb;
+
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
     int dx[9] = {-1, -1, -1, 0, 0, 0, 1, 1, 1};
@@ -45,21 +53,21 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0; j < width; j++)
         {
-            int x, y, count = 0, sum[3] = {};
+            int x, y, count = 0, sum[RGB] = {};
             for (int k = 0; k < 9; k++)
             {
                 x = j + dx[k];
                 y = i + dy[k];
                 if (x < 0 || x >= width || y < 0 || y >= height)
                     continue;
-                sum[0] += image[y][x].rgbtRed;
-                sum[1] += image[y][x].rgbtGreen;
-                sum[2] += image[y][x].rgbtBlue;
+                sum[RED] += image[y][x].rgbtRed;
+                sum[GREEN] += image[y][x].rgbtGreen;
+                sum[BLUE] += image[y][x].rgbtBlue;
                 count++;
             }
-            tmp[i * width + j].rgbtRed = round(sum[0] / (float)count);
-            tmp[i * width + j].rgbtGreen = round(sum[1] / (float)count);
-            tmp[i * width + j].rgbtBlue = round(sum[2] / (float)count);
+            tmp[i * width + j].rgbtRed = round(sum[RED] / (float)count);
+            tmp[i * width + j].rgbtGreen = round(sum[GREEN] / (float)count);
+            tmp[i * width + j].rgbtBlue = round(sum[BLUE] / (float)count);
         }
     }
     for (int i = 0; i < height; i++)
