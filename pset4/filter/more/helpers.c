@@ -101,103 +101,43 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0; j < width; j++)
         {
-            int x, y, sum_gx[3] = {}, sum_gy[3] = {};
+            int x, y;
             for (int k = 0; k < 9; k++)
             {
                 x = j + dx[k];
-                if (x < 0 || x >= width)
-                    continue;
                 y = i + dy[k];
-                if (y < 0 || y >= height)
+                if (x < 0 || x >= width || y < 0 || y >= height)
                     continue;
-                sum_gx[0] += image[y][x].rgbtRed * gx[k];
-                sum_gx[1] += image[y][x].rgbtGreen * gx[k];
-                sum_gx[2] += image[y][x].rgbtBlue * gx[k];
-                sum_gy[0] += image[y][x].rgbtRed * gy[k];
-                sum_gy[1] += image[y][x].rgbtGreen * gy[k];
-                sum_gy[2] += image[y][x].rgbtBlue * gy[k];
-                //printf("%d %d %d %d %d %d\n", i, j, k, gy[k], sum_gx[0], sum_gy[0]);
+                tmp_gx[i * width + j].rgbtRed += image[y][x].rgbtRed * gx[k];
+                tmp_gx[i * width + j].rgbtGreen += image[y][x].rgbtGreen * gx[k];
+                tmp_gx[i * width + j].rgbtBlue += image[y][x].rgbtBlue * gx[k];
+                tmp_gy[i * width + j].rgbtRed += image[y][x].rgbtRed * gy[k];
+                tmp_gy[i * width + j].rgbtGreen += image[y][x].rgbtGreen * gy[k];
+                tmp_gy[i * width + j].rgbtBlue += image[y][x].rgbtBlue * gy[k];
             }
-            //printf("1:%d %d %d %d\n", i, j, sum_gx[0], sum_gy[0]);
-            tmp_gx[i * width + j].rgbtRed = sum_gx[0];
-            tmp_gx[i * width + j].rgbtGreen = sum_gx[1];
-            tmp_gx[i * width + j].rgbtBlue = sum_gx[2];
-            tmp_gy[i * width + j].rgbtRed = sum_gy[0];
-            tmp_gy[i * width + j].rgbtGreen = sum_gy[1];
-            tmp_gy[i * width + j].rgbtBlue = sum_gy[2];
-            //printf("%d, %d\n", tmp_gy[i * width + j].rgbtRed, sum_gy[0]);
         }
     }
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
-            tmp_gx[i * width + j].rgbtRed = round(sqrt(pow(tmp_gx[i * width + j].rgbtRed, 2) + pow(tmp_gy[i * width + j].rgbtRed, 2)));
-            if (tmp_gx[i * width + j].rgbtRed > 255)
-                tmp_gx[i * width + j].rgbtRed = 255;
-            image[i][j].rgbtRed = tmp_gx[i * width + j].rgbtRed;
-            //printf("%d, %d, %d, %d\n", i, j, tmp_gx[i * width + j].rgbtRed, tmp_gy[i * width + j].rgbtRed);
-            //printf("%f\n", sqrt(pow(tmp_gx[i * width + j].rgbtRed, 2)+pow(tmp_gy[i * width + j].rgbtRed, 2)));
-            //printf("%d\n", image[i][j].rgbtRed);
-            tmp_gx[i * width + j].rgbtGreen = round(sqrt(pow(tmp_gx[i * width + j].rgbtGreen, 2) + pow(tmp_gy[i * width + j].rgbtGreen, 2)));
-            if (tmp_gx[i * width + j].rgbtGreen > 255)
-                tmp_gx[i * width + j].rgbtGreen = 255;
-            image[i][j].rgbtGreen = tmp_gx[i * width + j].rgbtGreen;
-            tmp_gx[i * width + j].rgbtBlue = round(sqrt(pow(tmp_gx[i * width + j].rgbtBlue, 2) + pow(tmp_gy[i * width + j].rgbtBlue, 2)));
-            if (tmp_gx[i * width + j].rgbtBlue > 255)
-                tmp_gx[i * width + j].rgbtBlue = 255;
-            image[i][j].rgbtBlue = tmp_gx[i * width + j].rgbtBlue;
+            int value;
+
+            value = round(sqrt(pow(tmp_gx[i * width + j].rgbtRed, 2) + pow(tmp_gy[i * width + j].rgbtRed, 2)));
+            if (value > 255)
+                value = 255;
+            image[i][j].rgbtRed = value;
+            value = round(sqrt(pow(tmp_gx[i * width + j].rgbtGreen, 2) + pow(tmp_gy[i * width + j].rgbtGreen, 2)));
+            if (value > 255)
+                value = 255;
+            image[i][j].rgbtGreen = value;
+            value = round(sqrt(pow(tmp_gx[i * width + j].rgbtBlue, 2) + pow(tmp_gy[i * width + j].rgbtBlue, 2)));
+            if (value > 255)
+                value = 255;
+            image[i][j].rgbtBlue = value;
         }
     }
     free(tmp_gx);
     free(tmp_gy);
     return;
 }
-/*
-int main(void)
-{
-    RGBTRIPLE image[3][3];
-    int width = 3;
-    int height = 3;
-    image[0][0].rgbtRed = 10;
-    image[0][0].rgbtGreen = 20;
-    image[0][0].rgbtBlue = 30;
-    image[0][1].rgbtRed = 20;
-    image[0][1].rgbtGreen = 30;
-    image[0][1].rgbtBlue = 40;
-    image[0][2].rgbtRed = 30;
-    image[0][2].rgbtGreen = 40;
-    image[0][2].rgbtBlue = 50;
-    image[1][0].rgbtRed = 40;
-    image[1][0].rgbtGreen = 50;
-    image[1][0].rgbtBlue = 60;
-    image[1][1].rgbtRed = 50;
-    image[1][1].rgbtGreen = 60;
-    image[1][1].rgbtBlue = 70;
-    image[1][2].rgbtRed = 60;
-    image[1][2].rgbtGreen = 70;
-    image[1][2].rgbtBlue = 80;
-    image[2][0].rgbtRed = 70;
-    image[2][0].rgbtGreen = 20;
-    image[2][0].rgbtBlue = 30;
-    image[2][1].rgbtRed = 80;
-    image[2][1].rgbtGreen = 30;
-    image[2][1].rgbtBlue = 40;
-    image[2][2].rgbtRed = 90;
-    image[2][2].rgbtGreen = 40;
-    image[2][2].rgbtBlue = 50;
-    for (int i = 0; i < height; i++)
-    {
-        for (int j =0; j < width; j++)
-            printf("%d ", image[i][j].rgbtRed);
-        printf("\n");
-    }
-    edges(height, width, image);
-    for (int i = 0; i < height; i++)
-    {
-        for (int j =0; j < width; j++)
-            printf("%d ", image[i][j].rgbtRed);
-        printf("\n");
-    }
-}
-*/
