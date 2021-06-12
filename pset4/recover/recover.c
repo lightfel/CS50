@@ -28,14 +28,11 @@ int main(int argc, char *argv[])
         if (buffer[0] == 0xff && buffer[1] == 0xd8 && buffer[2] == 0xff
                 && buffer[3] >= 0xe0 && buffer[3] <= 0xef)
         {
-            //printf("%d: debug\n", count);
             if (pic)
                 fclose(pic);
             for (int i = 2, tmp = count; tmp > 0 || i >= 0; i--, tmp /= 10)
                 file_name[i] = tmp % 10 + '0';
-            //printf("%s\n", file_name);
             pic = fopen(file_name, "w");
-            //pic = fopen("000.jpg", "w");
             count++;
         }
         if (pic)
