@@ -213,10 +213,11 @@ void lock_pairs(void)
 {
     for (int i = 0; i < pair_count; i++)
     {
-        locked[pairs[i].winner][pairs[i].loser] = true;
-        if (check_cycle(pairs[i].winner, pairs[i].loser))
-            locked[pairs[i].winner][pairs[i].loser] = false;
+        //locked[pairs[i].winner][pairs[i].loser] = true;
+        if (!check_cycle(pairs[i].winner, pairs[i].loser))
+            locked[pairs[i].winner][pairs[i].loser] = true;
     }
+    /*
     for (int i = 0; i < MAX; i++)
     {
         for (int j = 0; j < MAX; j++)
@@ -225,6 +226,7 @@ void lock_pairs(void)
                 printf("%s -> %s ... true\n", candidates[i], candidates[j]);
         }
     }
+    */
     return;
 }
 
